@@ -1,8 +1,10 @@
 #include "tcpserver.h"
 #include <QApplication>
+#include <QCoreApplication>
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::addLibraryPath("./");
     QApplication a(argc, argv);
     TcpServer w;
     w.show();
