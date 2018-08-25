@@ -12,6 +12,8 @@ public:
 
     QString checkusrInfo(QString s);
 
+    bool checkusername(QString s);
+
 signals:
     void updateClients(QString, int);
     void disconnected(int);
@@ -30,9 +32,9 @@ private:
 
     bool matchFlag;
     QString select_table = "select tbl_name name from sqlite_master where type = 'table'";
-    QString create_sql = "create table user ( passwd varchar(30), name varchar(30))";
-    QString select_max_sql = "select max(chatid) from user";
-    QString insert_sql = "insert into user values (?, ?)";
+    QString create_sql = "create table data ( name varchar(30), passwd varchar(30))";
+    //QString select_max_sql = "select max(chatid) from user";
+    QString insert_sql = "insert into data values (?, ?)";
     QString select_sql = "select name from user";
 
     QString select_nameInfo = "selcet * from user where name=";

@@ -10,7 +10,7 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
 
     //创建SQLITE数据库
     database = QSqlDatabase::addDatabase("QSQLITE");
-    database.setDatabaseName("user.db");
+    database.setDatabaseName("data.db");
 
     //打开数据库
     if(!database.open()){
@@ -34,7 +34,7 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
                 tableName = sql_query.value(0).toString();
                 qDebug()<<tableName;
                 //数据库表不存在
-                if(tableName.compare("user"))
+                if(tableName.compare("data"))
                 {
                     tableFlag=false;
                     qDebug()<<"table is not exist";
@@ -49,7 +49,7 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
         }
         if(tableFlag==false)
         {
-            //创建名为user的数据库表
+            //创建名为data的数据库表
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -105,13 +105,58 @@ void TcpClientSocket::dataReceived()
             sql_query.prepare(insert_sql);
             sql_query.addBindValue(str_1);
             sql_query.addBindValue(str_2);
-            qDebug()<<"success";
+            if(!sql_query.exec())
+            {
+                qDebug()<<sql_query.lastError();
+            }
+            else
+            {
+                qDebug()<<"success";
+            }
+
+            QString str = "select * from data";
+            sql_query.prepare(str);
+            if(!sql_query.exec())
+            {
+                qDebug()<<sql_query.lastError();
+            }
+            else
+            {
+//                if(sql_query.next())
+//                {
+//                    qDebug()<<"t";
+//                }
+//                else {
+//                    qDebug()<<"f";
+//                }
+                while(sql_query.next())
+                {
+                    QString name = sql_query.value(0).toString();
+                    QString pwd = sql_query.value(1).toString();
+                    qDebug()<<QString("name: %1     pwd:%2").arg(name).arg(pwd);
+                }
+            }
         }
         else
         {
             qDebug()<<"username";
-            QString pwdinfo = checkusrInfo(str_1);
-            this->write(pwdinfo.toLatin1(),pwdinfo.length());
+            bool ok = checkusername(str_1);
+            if(ok)
+            {
+                QString pwdinfo = checkusrInfo(str_1);
+                qDebug()<<pwdinfo;
+                qDebug()<<str_1;
+                this->flush();
+                this->write(pwdinfo.toLocal8Bit());
+                this->flush();
+            }
+            else
+            {
+                QString f =  "***";
+                this->flush();
+                this->write(f.toLocal8Bit());
+                this->flush();
+            }
         }
         //QString str = QString::fromLocal8Bit(tcpSocket->readAll());
         /*int length = str.length();
@@ -141,32 +186,73 @@ void TcpClientSocket::slotDisconnected()
 
 QString TcpClientSocket::checkusrInfo(QString s)
 {
+
     qDebug()<<"here";
-    //QStringList list = s.split("/");
-    //QString str = list[0];
     QSqlQuery sql_query(database);
-    QString tempstring = "select * from user where name='"+s+"'";
+//    QString select = "select * from data";
+//    if(!sql_query.exec(select))
+//    {
+//        qDebug()<<sql_query.lastError();
+//    }
+//    else
+//    {
+//        while (sql_query.next()) {
+//            QString str = sql_query.value(0).toString();
+//            if(str == s)
+//            {
+//                break;
+//            }
+//        }
+//    }
+    QString tempstring = "select * from data where name='"+s+"'";
     qDebug()<<sql_query.lastError();
+    qDebug()<<"err0";
     if(!sql_query.exec(tempstring))
     {
+        qDebug()<<"error";
         qDebug()<<sql_query.lastError();
         //matchFlag = false;
         return NULL;
     }
     else
     {
+        qDebug()<<"err1";
         while(sql_query.next())
         {
+            qDebug()<<"continue";
             //usr_id = sql_query.value(0).toInt();
-            usr_passwd = sql_query.value(0).toString();
-            usr_name = sql_query.value(1).toString();
+            usr_passwd = sql_query.value(1).toString();
+            usr_name = sql_query.value(0).toString();
 
             qDebug()<<QString("passwd=%1   name=%2").arg(usr_passwd).arg(usr_name);
 
         }
         if(usr_name==s) return usr_passwd;
         //else               matchFlag=false;
+
+
     }
 }
 
+bool TcpClientSocket::checkusername(QString s)
+{
+    QSqlQuery sql_query(database);
+    QString select = "select * from data";
+       if(!sql_query.exec(select))
+       {
+           qDebug()<<sql_query.lastError();
+       }
+       else
+       {
+           while (sql_query.next()) {
+               QString str = sql_query.value(0).toString();
+               qDebug()<<str;
+               if(str == s)
+               {
+                   return true;
+               }
+           }
+       }
+       return false;
+}
 
