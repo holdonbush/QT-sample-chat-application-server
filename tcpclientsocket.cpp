@@ -173,6 +173,63 @@ void TcpClientSocket::dataReceived()
         }*/
         emit updateClients(str,str.length());
     }
+    else if(str.contains("#",Qt::CaseInsensitive))
+    {
+        QStringList strlist = str.split("#");
+        QString str1 = strlist[0];
+        QString str2 = strlist[1];
+        QSqlQuery sqlquery(database);
+        QString update = "update data set passwd = :passwd where name = :name";
+        sqlquery.prepare(update);
+        sqlquery.bindValue(":passwd",str2);
+        sqlquery.bindValue(":name",str1);
+        if(!sqlquery.exec())
+        {
+            qDebug()<<sqlquery.lastError();
+        }
+        else {
+            qDebug()<<"update success";
+        }
+    }
+    else if(str.contains("@",Qt::CaseInsensitive))
+    {
+        QStringList strlist = str.split("@");
+        QString str1 = strlist[0];
+        QString str2 = strlist[1];
+
+        QSqlQuery sqlquery(database);
+        QString select = "select * from data";
+        QString update = "update data set name = :name where passwd = :passwd";
+        if(!sqlquery.exec(select))
+        {
+            qDebug()<<sqlquery.lastError();
+        }
+        else
+        {
+            while (sqlquery.next()) {
+                QString name = sqlquery.value(0).toString();
+                QString pwd = sqlquery.value(1).toString();
+                if(name == str1)
+                {
+                    QString passwd = pwd;
+                    sqlquery.prepare(update);
+                    sqlquery.bindValue(":name",str2);
+                    sqlquery.bindValue(":passwd",passwd);
+                    if(!sqlquery.exec())
+                    {
+                        qDebug()<<sqlquery.lastError();
+                    }
+                    else
+                    {
+                        qDebug()<<"server update success";
+                    }
+                }
+            }
+
+
+
+        }
+    }
     else {
         emit updateClients(str,str.length());
     }
