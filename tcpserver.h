@@ -27,8 +27,11 @@ public slots:
     //void readInfo();
     //QString returnread();
 
-//signals:
+signals:
     //void aleadyread();
+    //void datapass(QString);
+private slots:
+    void on_pushButton_2_clicked();
 
 private:
     Ui::TcpServer *ui;

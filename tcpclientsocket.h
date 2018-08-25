@@ -18,10 +18,10 @@ signals:
 protected slots:
     void dataReceived();
     void slotDisconnected();
-
+    //void receivestr(QString s);
 private:
     QSqlDatabase database;
-    QTcpSocket *tcpSocket;
+    //QTcpSocket *tcpSocket;
     bool tableFlag;
 
     int usr_id;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>831</width>
+    <height>430</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>40</x>
      <y>20</y>
-     <width>321</width>
-     <height>211</height>
+     <width>751</width>
+     <height>241</height>
     </rect>
    </property>
   </widget>
@@ -27,7 +27,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>270</y>
+     <y>380</y>
      <width>321</width>
      <height>23</height>
     </rect>
@@ -36,11 +36,11 @@
     <string>创建聊天室</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>240</y>
+     <x>470</x>
+     <y>380</y>
      <width>321</width>
      <height>23</height>
     </rect>
@@ -60,6 +60,29 @@
      <widget class="QLineEdit" name="lineEdit"/>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>280</y>
+     <width>93</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>发送</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit">
+   <property name="geometry">
+    <rect>
+     <x>43</x>
+     <y>280</y>
+     <width>651</width>
+     <height>81</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

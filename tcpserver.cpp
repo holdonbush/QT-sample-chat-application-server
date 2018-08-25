@@ -12,7 +12,7 @@ TcpServer::TcpServer(QWidget *parent) :
     port = 8010;
     ui->lineEdit->setText(QString::number(port));
     connect(ui->pushButton,SIGNAL(clicked(bool)),this,SLOT(slotCreateServer()));
-
+    tcpSocket = new QTcpSocket(this);
     /*
     connect(this,SIGNAL(readyRead()),this,SLOT(readInfo()));
 
@@ -142,3 +142,14 @@ void TcpServer::checkusrInfo(QString s)
     }
 }
 */
+
+void TcpServer::on_pushButton_2_clicked()
+{
+    //tcpSocket = new QTcpSocket(this);
+    QString str = ui->textEdit->toPlainText();
+    tcpSocket->open(QIODevice::WriteOnly);
+    tcpSocket->write(str.toLocal8Bit());
+    tcpSocket->flush();
+    //tcpSocket->flush();
+    //emit datapass(str);
+}

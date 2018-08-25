@@ -18,6 +18,8 @@ public slots:
     void slotDisconnected(int);
 protected:
     void incomingConnection(int socketDescriptor);
+private:
+    QTcpSocket *tcpSocket;
 };
 
 #endif // SERVER_H

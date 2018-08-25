@@ -5,7 +5,7 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
     connect(this,SIGNAL(readyRead()),this,SLOT(dataReceived()));
     connect(this,SIGNAL(disconnected()),this,SLOT(slotDisconnected()));
 
-    tcpSocket = new QTcpSocket(this);
+    //tcpSocket = new QTcpSocket(this);
     tableFlag = false;
 
     //创建SQLITE数据库
@@ -168,3 +168,5 @@ QString TcpClientSocket::checkusrInfo(QString s)
         //else               matchFlag=false;
     }
 }
+
+
