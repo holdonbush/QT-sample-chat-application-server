@@ -17,6 +17,7 @@ public:
 signals:
     void updateClients(QString, int);
     void disconnected(int);
+    void showuser(QString);
 protected slots:
     void dataReceived();
     void slotDisconnected();
@@ -25,6 +26,8 @@ private:
     QSqlDatabase database;
     //QTcpSocket *tcpSocket;
     bool tableFlag;
+
+
 
     int usr_id;
     QString usr_passwd;

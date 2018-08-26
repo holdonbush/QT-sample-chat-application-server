@@ -4,7 +4,7 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
 {
     connect(this,SIGNAL(readyRead()),this,SLOT(dataReceived()));
     connect(this,SIGNAL(disconnected()),this,SLOT(slotDisconnected()));
-
+    //tcpServer = new TcpServer(this);
     //tcpSocket = new QTcpSocket(this);
     tableFlag = false;
 
@@ -91,7 +91,21 @@ void TcpClientSocket::dataReceived()
     buffer = this->readAll();
     QString str = QString::fromLocal8Bit(buffer);
     qDebug()<<str;
-    if(str.contains("/",Qt::CaseInsensitive))
+
+    if(str.contains("+",Qt::CaseInsensitive))
+    {
+        QStringList strlist = str.split("+");
+        QString str1 = strlist[0];
+        QString str2 = strlist[1];
+        qDebug()<<str2;
+        //QString str = str2.toHtmlEscaped();
+        //qDebug()<<str;
+        //QString msg = str1 + ":" + str;
+        //emit updateClients(str1,str1.length());
+        emit showuser(str1);
+        emit updateClients(str2,str2.length());
+    }
+    else if(str.contains("/",Qt::CaseInsensitive))
     {
         QStringList strlist = str.split("/");
         QString str_1 = strlist[0];
@@ -229,7 +243,7 @@ void TcpClientSocket::dataReceived()
 
 
         }
-    }
+    }    
     else {
         emit updateClients(str,str.length());
     }
@@ -246,21 +260,6 @@ QString TcpClientSocket::checkusrInfo(QString s)
 
     qDebug()<<"here";
     QSqlQuery sql_query(database);
-//    QString select = "select * from data";
-//    if(!sql_query.exec(select))
-//    {
-//        qDebug()<<sql_query.lastError();
-//    }
-//    else
-//    {
-//        while (sql_query.next()) {
-//            QString str = sql_query.value(0).toString();
-//            if(str == s)
-//            {
-//                break;
-//            }
-//        }
-//    }
     QString tempstring = "select * from data where name='"+s+"'";
     qDebug()<<sql_query.lastError();
     qDebug()<<"err0";

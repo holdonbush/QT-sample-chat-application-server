@@ -13,16 +13,6 @@
   <property name="windowTitle">
    <string>TcpServer</string>
   </property>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>20</y>
-     <width>751</width>
-     <height>241</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
@@ -81,6 +71,16 @@
      <y>280</y>
      <width>651</width>
      <height>81</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>10</y>
+     <width>751</width>
+     <height>261</height>
     </rect>
    </property>
   </widget>

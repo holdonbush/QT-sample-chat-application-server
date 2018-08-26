@@ -32,11 +32,12 @@ signals:
     //void datapass(QString);
 private slots:
     void on_pushButton_2_clicked();
-
+    void receive(QString s);
 private:
     Ui::TcpServer *ui;
     int port;
     Server *server;
+    TcpClientSocket *tcpclient;
 
     QString str;
     QTcpSocket *tcpSocket;
