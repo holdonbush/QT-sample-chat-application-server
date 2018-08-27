@@ -19,19 +19,13 @@ public:
     explicit TcpServer(QWidget *parent = 0);
     ~TcpServer();
 
-    //QString checkusrInfo(QString s);
 
 public slots:
     void slotCreateServer();
     void updateServer(QString , int);
-    //void readInfo();
-    //QString returnread();
 
-signals:
-    //void aleadyread();
-    //void datapass(QString);
+
 private slots:
-    void on_pushButton_2_clicked();
     void receive(QString s);
 private:
     Ui::TcpServer *ui;

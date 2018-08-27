@@ -4,6 +4,9 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
 {
     connect(this,SIGNAL(readyRead()),this,SLOT(dataReceived()));
     connect(this,SIGNAL(disconnected()),this,SLOT(slotDisconnected()));
+    //server = new Server(this,8010);
+
+
     //tcpServer = new TcpServer(this);
     //tcpSocket = new QTcpSocket(this);
     tableFlag = false;
@@ -63,30 +66,13 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
     }
 }
 
+/*
+ * 函数名：dataReceived
+ * 功能：处理从客户端收到的各种数据
+ * 返回值：void
+ */
 void TcpClientSocket::dataReceived()
 {
-    /*while(bytesAvailable()>0)
-    {
-        qDebug()<<"接收";
-        int length = bytesAvailable();
-        char buf[1024];
-        read(buf,length);
-        QString msg = buf;
-        emit updateClients(msg,length);
-
-        if(msg.length() > 15)
-        {
-            QString pwdinfo = checkusrInfo(msg);
-            this->write(pwdinfo.toLatin1(),pwdinfo.length());
-        }
-        else
-        {
-            QSqlQuery sql_query(database);
-            sql_query.prepare(insert_sql);
-            sql_query.addBindValue(msg);
-        }
-    }*/
-
     QByteArray buffer;
     buffer = this->readAll();
     QString str = QString::fromLocal8Bit(buffer);
@@ -98,18 +84,19 @@ void TcpClientSocket::dataReceived()
         QString str1 = strlist[0];
         QString str2 = strlist[1];
         qDebug()<<str2;
-        //QString str = str2.toHtmlEscaped();
-        //qDebug()<<str;
-        //QString msg = str1 + ":" + str;
-        //emit updateClients(str1,str1.length());
+
         emit showuser(str1);
+        //emit updateClients(str1,str2.length());
         emit updateClients(str2,str2.length());
     }
+
+    //此部分用于登陆注册信息的验证
     else if(str.contains("/",Qt::CaseInsensitive))
     {
         QStringList strlist = str.split("/");
         QString str_1 = strlist[0];
         QString str_2 = strlist[1];
+        //注册信息写入数据库
         if(str_2 != "-")
         {
             qDebug()<<str_1;
@@ -136,13 +123,6 @@ void TcpClientSocket::dataReceived()
             }
             else
             {
-//                if(sql_query.next())
-//                {
-//                    qDebug()<<"t";
-//                }
-//                else {
-//                    qDebug()<<"f";
-//                }
                 while(sql_query.next())
                 {
                     QString name = sql_query.value(0).toString();
@@ -151,20 +131,21 @@ void TcpClientSocket::dataReceived()
                 }
             }
         }
+        //验证登陆信息
         else
         {
             qDebug()<<"username";
-            bool ok = checkusername(str_1);
+            bool ok = checkusername(str_1);           //验证用户名是否正确
             if(ok)
             {
-                QString pwdinfo = checkusrInfo(str_1);
+                QString pwdinfo = checkusrInfo(str_1);  //从数据库中查询获取该用户名对应的密码
                 qDebug()<<pwdinfo;
                 qDebug()<<str_1;
                 this->flush();
                 this->write(pwdinfo.toLocal8Bit());
                 this->flush();
             }
-            else
+            else                  //用户名不正确，返回一串字符做标识
             {
                 QString f =  "***";
                 this->flush();
@@ -172,21 +153,9 @@ void TcpClientSocket::dataReceived()
                 this->flush();
             }
         }
-        //QString str = QString::fromLocal8Bit(tcpSocket->readAll());
-        /*int length = str.length();
-        if(str.length() > 15)
-        {
-            QString pwdinfo = checkusrInfo(str);
-            this->write(pwdinfo.toLatin1(),pwdinfo.length());
-        }
-        else
-        {
-            QSqlQuery sql_query(database);
-            sql_query.prepare(insert_sql);
-            sql_query.addBindValue(str);
-        }*/
         emit updateClients(str,str.length());
     }
+    //此部分用于更新用户密码
     else if(str.contains("#",Qt::CaseInsensitive))
     {
         QStringList strlist = str.split("#");
@@ -205,6 +174,7 @@ void TcpClientSocket::dataReceived()
             qDebug()<<"update success";
         }
     }
+    //此部分用于更新用户名
     else if(str.contains("@",Qt::CaseInsensitive))
     {
         QStringList strlist = str.split("@");
@@ -255,6 +225,11 @@ void TcpClientSocket::slotDisconnected()
     emit disconnected(this->socketDescriptor());
 }
 
+/*
+ * 函数名：checkusrInfo
+ * 功能：验证用户信息
+ * 返回值：QString
+ */
 QString TcpClientSocket::checkusrInfo(QString s)
 {
 
@@ -290,6 +265,11 @@ QString TcpClientSocket::checkusrInfo(QString s)
     }
 }
 
+/*
+ * 函数名：checkusername
+ * 功能：验证用户名是否正确
+ * 返回值：bool
+ */
 bool TcpClientSocket::checkusername(QString s)
 {
     QSqlQuery sql_query(database);

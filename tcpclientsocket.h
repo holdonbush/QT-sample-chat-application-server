@@ -4,6 +4,8 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 
+
+
 class TcpClientSocket : public QTcpSocket
 {
     Q_OBJECT
@@ -27,7 +29,7 @@ private:
     //QTcpSocket *tcpSocket;
     bool tableFlag;
 
-
+    //Server *server;
 
     int usr_id;
     QString usr_passwd;

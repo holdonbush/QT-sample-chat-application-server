@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>831</width>
-    <height>430</height>
+    <width>654</width>
+    <height>339</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,21 +17,21 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>380</y>
-     <width>321</width>
+     <y>290</y>
+     <width>221</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>创建聊天室</string>
+    <string>开启服务器</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>380</y>
-     <width>321</width>
+     <x>350</x>
+     <y>290</y>
+     <width>261</width>
      <height>23</height>
     </rect>
    </property>
@@ -47,39 +47,20 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>280</y>
-     <width>93</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>发送</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="textEdit">
-   <property name="geometry">
-    <rect>
-     <x>43</x>
-     <y>280</y>
-     <width>651</width>
-     <height>81</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>10</y>
-     <width>751</width>
+     <width>571</width>
      <height>261</height>
     </rect>
    </property>
