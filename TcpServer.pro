@@ -36,3 +36,6 @@ HEADERS += \
 
 FORMS += \
         tcpserver.ui
+
+RESOURCES += \
+    img.qrc

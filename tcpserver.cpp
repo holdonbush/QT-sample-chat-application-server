@@ -8,6 +8,8 @@ TcpServer::TcpServer(QWidget *parent) :
     ui(new Ui::TcpServer)
 {
     ui->setupUi(this);
+    setWindowTitle("Server");
+    setWindowIcon(QPixmap(":/img/server.png"));
 
     port = 8010;
     tcpclient = new TcpClientSocket;
@@ -20,6 +22,12 @@ TcpServer::~TcpServer()
     delete ui;
 }
 
+/*
+ * 函数名：slotCreateServer
+ * 功能：创建一个TcpServer
+ * 参数：NULL
+ * 返回值：void
+ */
 void TcpServer::slotCreateServer()
 {
     server = new Server(this, port);
@@ -27,6 +35,12 @@ void TcpServer::slotCreateServer()
     ui->pushButton->setEnabled(false);
 }
 
+/*
+ * 函数名：updateServer
+ * 功能：更新内容
+ * 参数：QString , int
+ * 返回值：void
+ */
 void TcpServer::updateServer(QString msg, int length)
 {
     ui->textBrowser->append(msg);

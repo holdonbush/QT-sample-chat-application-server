@@ -8,6 +8,7 @@ Server::Server(QObject *parent,int port) : QTcpServer(parent)
 /*
  * 函数名：incomingConnection
  * 功能：存储新连接的套接字，建立其它connect
+ * 参数：int
  * 返回值：void
  */
 void Server::incomingConnection(int socketDescriptor)
@@ -24,10 +25,12 @@ void Server::incomingConnection(int socketDescriptor)
 /*
  * 函数名：updateClients
  * 功能：更新内容
+ * 参数：QString,int
  * 返回值：void
  */
 void Server::updateClients(QString msg, int length)
 {
+    //传输文件时进行的判断，目的是将文件传输到对应的用户
     if(msg.contains("+"))
     {
         QStringList str = msg.split("+");

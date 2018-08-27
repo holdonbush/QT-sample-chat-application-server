@@ -69,6 +69,7 @@ TcpClientSocket::TcpClientSocket(QObject *parent)
 /*
  * 函数名：dataReceived
  * 功能：处理从客户端收到的各种数据
+ * 参数：NULL
  * 返回值：void
  */
 void TcpClientSocket::dataReceived()
@@ -78,6 +79,7 @@ void TcpClientSocket::dataReceived()
     QString str = QString::fromLocal8Bit(buffer);
     qDebug()<<str;
 
+    //用于传输文件时的信息验证
     if(str.contains("+",Qt::CaseInsensitive))
     {
         QStringList strlist = str.split("+");
@@ -238,6 +240,7 @@ void TcpClientSocket::slotDisconnected()
 /*
  * 函数名：checkusrInfo
  * 功能：验证用户信息
+ * 参数：QString
  * 返回值：QString
  */
 QString TcpClientSocket::checkusrInfo(QString s)
@@ -245,6 +248,7 @@ QString TcpClientSocket::checkusrInfo(QString s)
 
     qDebug()<<"here";
     QSqlQuery sql_query(database);
+    //数据库语句，执行查询操作
     QString tempstring = "select * from data where name='"+s+"'";
     qDebug()<<sql_query.lastError();
     qDebug()<<"err0";
@@ -278,11 +282,13 @@ QString TcpClientSocket::checkusrInfo(QString s)
 /*
  * 函数名：checkusername
  * 功能：验证用户名是否正确
+ * 参数：QString
  * 返回值：bool
  */
 bool TcpClientSocket::checkusername(QString s)
 {
     QSqlQuery sql_query(database);
+    //数据库语句，执行查询操作
     QString select = "select * from data";
        if(!sql_query.exec(select))
        {
