@@ -85,9 +85,19 @@ void TcpClientSocket::dataReceived()
         QString str2 = strlist[1];
         qDebug()<<str2;
 
-        emit showuser(str1);
-        //emit updateClients(str1,str2.length());
-        emit updateClients(str2,str2.length());
+        if(str1 == "file")
+        {
+            qDebug()<<"file";
+            QString str3 = str2+str2;
+            //emit updateClients(str1,str1.length());
+            emit updateClients(str3,str2.length());
+        }
+        else
+        {
+            emit showuser(str1);
+            //emit updateClients(str1,str2.length());
+            emit updateClients(str2,str2.length());
+        }
     }
 
     //此部分用于登陆注册信息的验证
