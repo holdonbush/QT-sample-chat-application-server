@@ -96,9 +96,10 @@ void TcpClientSocket::dataReceived()
         }
         else
         {
-            emit showuser(str1);
+            QString str3 = str1+str2;
+            //emit showuser(str1);
             //emit updateClients(str1,str2.length());
-            emit updateClients(str2,str2.length());
+            emit updateClients(str3,str3.length());
         }
     }
 
